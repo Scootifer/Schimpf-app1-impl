@@ -7,9 +7,10 @@ package ApplicationPackage;
 
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,34 +19,63 @@ import java.util.ArrayList;
 public class TodoListApplication extends Application{
 
 
-    private ArrayList<ListItem> list;
-    private int itemCounter;
+    ObservableList<ListItem> list = FXCollections.observableArrayList();
+    public ListItem CurrentCell = null;
+    public int nextId = 0;
 
-    //This funtion will make a new ListItem object with the id of itemCounter, then add the
-    //new object to the list and increment counter.
-    public void addItem(String title, String date, String description) {
 
+    public ObservableList<ListItem> addItem(String date, String description) {
+        list.add(new ListItem(nextId, date, description));
+        nextId++;
+        return list;
+    }
+
+    public boolean cellSelectedExist(){
+        if (CurrentCell == null) {
+            return false;
+        }
+        return true;
+    }
+
+    public void setCurrentCell(ListItem currentCell) {
+        this.CurrentCell = currentCell;
+    }
+
+    public boolean getCurrentCellStatus() {
+        if(CurrentCell.getComplete()) {
+            return true;
+        }
+        return false;
+    }
+
+    public void setCurrentCellStatus(boolean status) {
+        if(list.contains(this.CurrentCell)) {
+            this.CurrentCell.setComplete(status);
+        }
+    }
+
+    public String getCurrentCellDate() {
+        return this.CurrentCell.getDate();
+    }
+
+    public String getCurrentCellDescription() {
+        return this.CurrentCell.getDescription();
+    }
+
+    public ObservableList<ListItem> editSelectedItem(String date, String description) {
+        int index = list.indexOf(CurrentCell);
+        this.CurrentCell.setDate(date);
+        this.CurrentCell.setDescription(description);
+        this.list.remove(index);
+        this.list.add(index, CurrentCell);
+        return this.list;
     }
 
     //remove item will remove the item with the given ID
-    public void removeItem(int id) {
+    public void removeItem(ListItem item) {
 
     }
 
-    //will edit the item with the given ID
-    public void editTitle(int id, String title) {
-
-    }
-
-    //will edit the item with the given ID
-    public void editDescription(int id, String desc) {
-
-    }
-
-    //editDate will edit the item with the given ID
-    public void editDate(int id, String date) {
-
-    }
 
     //this will return a list of only complete items
     public ArrayList<ListItem> sortComplete(){

@@ -42,11 +42,10 @@ public class TodoListController implements Initializable {
     public RadioButton MarkIncompleteBtn;
     @FXML
     public ListView<ListItem> ListViewID;
+    @FXML
+    public Button EditBtn;
 
-    public ListItem CurrentCell;
-    public int nextId = 0;
-
-    ObservableList<ListItem> list = FXCollections.observableArrayList();
+    final TodoListApplication application = new TodoListApplication();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -55,29 +54,68 @@ public class TodoListController implements Initializable {
 
     @FXML
     private void addItem(Event e) {
-        list.add(new ListItem(nextId, DateBox.getValue().toString(), DescriptionBox.getText()));
-        ListViewID.setItems(list);
-        nextId++;
+        ListViewID.setItems(application.addItem(DateBox.getValue().toString(), DescriptionBox.getText()));
     }
 
+    @FXML
+    private void editItem(Event e) {
+        if(!application.cellSelectedExist()) {
+            addItem(e);
+            return;
+        }
+
+
+        ListViewID.setItems(application.editSelectedItem(DateBox.getValue().toString(), DescriptionBox.getText()));
+
+
+    }
+
+    // This function updates the application with the currently selected cell
+    // It also compares the status of the cell to set its current status in the corner
     @FXML
     private void listItemSelected(Event e) {
 
         ListViewID.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                CurrentCell = ListViewID.getSelectionModel().getSelectedItem();
+                application.setCurrentCell(ListViewID.getSelectionModel().getSelectedItem());
 
-                if(CurrentCell.getComplete() == true) {
-                    MarkCompleteBtn.setSelected(true);
-                    MarkCompleteBtn.setToggleGroup(completeness);
+                //sets desc and date fields for editing
+                DescriptionBox.setText(application.getCurrentCellDescription());
+                DateBox.setValue(LocalDate.parse(application.getCurrentCellDate()));
+
+                //completeness radio button logic
+                if(!MarkCompleteBtn.isSelected() && !MarkIncompleteBtn.isSelected()) {
+                    MarkIncompleteBtn.fire();
                 }
-                else {
-                    MarkCompleteBtn.setSelected(false);
-                    MarkCompleteBtn.setToggleGroup(completeness);
+                else if(application.getCurrentCellStatus() && !MarkCompleteBtn.isSelected()) {
+                    MarkCompleteBtn.fire();
+                }
+                else if (!application.getCurrentCellStatus() && MarkCompleteBtn.isSelected()){
+                    MarkIncompleteBtn.fire();
                 }
             }
         });
+    }
+
+    @FXML
+    private void MarkCompleteBtnClick(Event e) {
+        if(!application.cellSelectedExist()) {
+            return;
+        }
+        else{
+            application.setCurrentCellStatus(true);
+        }
+    }
+
+    @FXML
+    private void MarkIncompleteBtnClick(Event e) {
+        if(!application.cellSelectedExist()) {
+            return;
+        }
+        else{
+            application.setCurrentCellStatus(false);
+        }
     }
 
 }
