@@ -4,36 +4,51 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-<SplitPane dividerPositions="0.5, 0.5, 0.5" orientation="VERTICAL" prefHeight="492.0" prefWidth="470.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ApplicationPackage.TodoListApplication">
-   <items>
-      <ButtonBar maxHeight="20.0" prefHeight="40.0" prefWidth="200.0">
-        <buttons>
-            <ChoiceBox prefWidth="150.0" />
-          <Button mnemonicParsing="false" text="Save" />
-            <Button mnemonicParsing="false" text="Load" />
-        </buttons>
-      </ButtonBar>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="601.0">
-         <children>
-            <Button layoutX="549.0" layoutY="6.0" mnemonicParsing="false" text="Add" />
-            <TextField layoutX="131.0" layoutY="6.0" prefHeight="25.0" prefWidth="279.0" promptText="Description" />
-            <DatePicker layoutX="418.0" layoutY="6.0" prefHeight="25.0" prefWidth="125.0" promptText="Date" />
-            <TextField layoutX="7.0" layoutY="6.0" prefHeight="25.0" prefWidth="115.0" promptText="Title" />
-         </children>
-      </AnchorPane>
-      <ListView prefHeight="486.0" prefWidth="571.0" />
-      <ButtonBar maxHeight="30.0" prefHeight="121.0" prefWidth="601.0">
-        <buttons>
-            <ChoiceBox prefWidth="150.0" />
-            <Button mnemonicParsing="false" text="Remove" />
-            <Button mnemonicParsing="false" text="Button" />
-            <Button mnemonicParsing="false" text="Complete" />
-        </buttons>
-      </ButtonBar>
-   </items>
+<SplitPane id="dueDate" dividerPositions="0.5, 0.5, 0.5" maxHeight="1000.0" maxWidth="1000.0" orientation="VERTICAL" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ApplicationPackage.TodoListController">
+    <ButtonBar maxHeight="20.0" prefHeight="40.0" prefWidth="200.0">
+      <buttons>
+          <ChoiceBox prefWidth="150.0" />
+          <Button id="SaveBtn" fx:id="SaveBtn" mnemonicParsing="false" text="Save" />
+          <Button id="LoadBtn" fx:id="LoadButton" mnemonicParsing="false" text="Load" />
+      </buttons>
+    </ButtonBar>
+    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="1001.0">
+        <Button fx:id="AddBtn" layoutX="955.0" layoutY="6.0" mnemonicParsing="false" onAction="#addItem" text="Add" />
+        <TextField id="DescriptionBox" fx:id="DescriptionBox" layoutX="65.0" layoutY="6.0" prefHeight="25.0" prefWidth="728.0" promptText="Description" />
+        <DatePicker id="DateBox" fx:id="DateBox" layoutX="810.0" layoutY="6.0" prefHeight="25.0" prefWidth="125.0" promptText="Date" />
+    </AnchorPane>
+    <ListView fx:id="ListViewID" onMouseClicked="#listItemSelected" prefHeight="432.0" prefWidth="683.0" />
+    <ButtonBar maxHeight="30.0" prefHeight="121.0" prefWidth="601.0">
+      <buttons>
+         <Label text="Sort By:" translateY="-5.0" />
+         <HBox prefHeight="28.0" prefWidth="369.0" spacing="20.0" translateX="-280.0">
+            <children>
+               <RadioButton id="ShowAllBtn" fx:id="ShowAllBtn" mnemonicParsing="false" text="Show All" />
+               <RadioButton id="ShowCompleteBtn" fx:id="SortCompleteBtn" mnemonicParsing="false" text="Complete" />
+               <RadioButton id="ShowIncompleteBtn" fx:id="SortIncompleteBtn" mnemonicParsing="false" text="Incomplete" />
+            </children>
+         </HBox>
+          <Button id="RemoveBtn" fx:id="RemoveBtn" maxWidth="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="Remove" translateX="-200.0" />
+         <Label maxWidth="100.0" text="Status:" translateX="-10.0" translateY="-5.0" />
+         <HBox maxWidth="220.0" prefHeight="28.0" prefWidth="200.0" spacing="10.0">
+            <children>
+               <RadioButton id="MarkCompleteBtn" fx:id="MarkCompleteBtn" mnemonicParsing="false" text="Complete">
+                  <toggleGroup>
+                     <ToggleGroup fx:id="completeness" />
+                  </toggleGroup>
+               </RadioButton>
+               <RadioButton id="MarkIncompleteBtn" fx:id="MarkIncompleteBtn" mnemonicParsing="false" text="Incomplete" toggleGroup="$completeness" />
+            </children>
+         </HBox>
+      </buttons>
+    </ButtonBar>
 </SplitPane>

@@ -9,12 +9,14 @@ package ApplicationPackage;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class TodoListApplication extends Application{
+
 
     private ArrayList<ListItem> list;
     private int itemCounter;
