@@ -1,0 +1,25 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+class ListItem {
+    +id
+    +title
+    +date
+    +description
+}
+
+class Application {
+    +ItemList
+    +itemCounter
+
+    -addItem(String title, String date, String description)
+    -removeItem(int id)
+    -editTitle(int id, String title)
+    -editDescription(int id, String desc)
+    -sortComplete()
+    -sortIncomplete()
+    -showAll()
+    -save()
+    -load()
+}
+@enduml

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<SplitPane dividerPositions="0.5, 0.5, 0.5" orientation="VERTICAL" prefHeight="492.0" prefWidth="470.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ApplicationPackage.TodoListApplication">
+   <items>
+      <ButtonBar maxHeight="20.0" prefHeight="40.0" prefWidth="200.0">
+        <buttons>
+            <ChoiceBox prefWidth="150.0" />
+          <Button mnemonicParsing="false" text="Save" />
+            <Button mnemonicParsing="false" text="Load" />
+        </buttons>
+      </ButtonBar>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="601.0">
+         <children>
+            <Button layoutX="549.0" layoutY="6.0" mnemonicParsing="false" text="Add" />
+            <TextField layoutX="131.0" layoutY="6.0" prefHeight="25.0" prefWidth="279.0" promptText="Description" />
+            <DatePicker layoutX="418.0" layoutY="6.0" prefHeight="25.0" prefWidth="125.0" promptText="Date" />
+            <TextField layoutX="7.0" layoutY="6.0" prefHeight="25.0" prefWidth="115.0" promptText="Title" />
+         </children>
+      </AnchorPane>
+      <ListView prefHeight="486.0" prefWidth="571.0" />
+      <ButtonBar maxHeight="30.0" prefHeight="121.0" prefWidth="601.0">
+        <buttons>
+            <ChoiceBox prefWidth="150.0" />
+            <Button mnemonicParsing="false" text="Remove" />
+            <Button mnemonicParsing="false" text="Button" />
+            <Button mnemonicParsing="false" text="Complete" />
+        </buttons>
+      </ButtonBar>
+   </items>
+</SplitPane>
