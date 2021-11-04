@@ -1,14 +1,16 @@
 package ApplicationPackage;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.Event;
-import javafx.event.EventHandler;
+/*
+ *  UCF COP3330 Summer 2021 Application Assignment 1 Solution
+ *  Copyright 2021 Scott Schimpf
+ */
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -17,6 +19,7 @@ import java.util.ResourceBundle;
 public class TodoListController implements Initializable {
 
     public ToggleGroup completeness;
+    public ToggleGroup sort;
 
     @FXML
     public DatePicker DateBox;
@@ -44,78 +47,131 @@ public class TodoListController implements Initializable {
     public ListView<ListItem> ListViewID;
     @FXML
     public Button EditBtn;
+    @FXML
+    public Button ClearListBtn;
+
 
     final TodoListApplication application = new TodoListApplication();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         DateBox.setValue(LocalDate.now());
-    }
 
-    @FXML
-    private void addItem(Event e) {
-        ListViewID.setItems(application.addItem(DateBox.getValue().toString(), DescriptionBox.getText()));
-    }
+        // Here the onMouseClick event is updated with a custom event
+        // First it checks that a cell was actually selected
+        // Next it sets the fields to the value of the item for editing
+        // Finally it sets the radio buttons accordingly7
+        ListViewID.setOnMouseClicked(event -> {
+            application.setCurrentCell(ListViewID.getSelectionModel().getSelectedItem());
+            if(application.cellSelectedDoesNotExist()){
+                return;
+            }
 
-    @FXML
-    private void editItem(Event e) {
-        if(!application.cellSelectedExist()) {
-            addItem(e);
-            return;
-        }
+            //sets desc and date fields for editing
+            DescriptionBox.setText(application.getCurrentCellDescription());
+            DateBox.setValue(LocalDate.parse(application.getCurrentCellDate()));
 
-
-        ListViewID.setItems(application.editSelectedItem(DateBox.getValue().toString(), DescriptionBox.getText()));
-
-
-    }
-
-    // This function updates the application with the currently selected cell
-    // It also compares the status of the cell to set its current status in the corner
-    @FXML
-    private void listItemSelected(Event e) {
-
-        ListViewID.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                application.setCurrentCell(ListViewID.getSelectionModel().getSelectedItem());
-
-                //sets desc and date fields for editing
-                DescriptionBox.setText(application.getCurrentCellDescription());
-                DateBox.setValue(LocalDate.parse(application.getCurrentCellDate()));
-
-                //completeness radio button logic
-                if(!MarkCompleteBtn.isSelected() && !MarkIncompleteBtn.isSelected()) {
-                    MarkIncompleteBtn.fire();
-                }
-                else if(application.getCurrentCellStatus() && !MarkCompleteBtn.isSelected()) {
-                    MarkCompleteBtn.fire();
-                }
-                else if (!application.getCurrentCellStatus() && MarkCompleteBtn.isSelected()){
-                    MarkIncompleteBtn.fire();
-                }
+            //completeness radio button logic
+            if(!MarkCompleteBtn.isSelected() && !MarkIncompleteBtn.isSelected()) {
+                MarkIncompleteBtn.fire();
+            }
+            else if(application.getCurrentCellStatus() && !MarkCompleteBtn.isSelected()) {
+                MarkCompleteBtn.fire();
+            }
+            else if (!application.getCurrentCellStatus() && MarkCompleteBtn.isSelected()){
+                MarkIncompleteBtn.fire();
             }
         });
     }
 
     @FXML
-    private void MarkCompleteBtnClick(Event e) {
-        if(!application.cellSelectedExist()) {
+    private void addItem() {
+        ListViewID.setItems(application.addItem(DateBox.getValue().toString(), DescriptionBox.getText()));
+    }
+
+    @FXML
+    private void editItem() {
+        if(application.cellSelectedDoesNotExist()) {
+            addItem();
             return;
         }
-        else{
-            application.setCurrentCellStatus(true);
+        ListViewID.setItems(application.editSelectedItem(DateBox.getValue().toString(), DescriptionBox.getText()));
+    }
+
+
+    @FXML
+    private void MarkCompleteBtnClick() {
+        if(application.cellSelectedDoesNotExist()) {
+            return;
+        }
+
+        application.setCurrentCellStatus(true);
+
+    }
+
+    @FXML
+    private void MarkIncompleteBtnClick() {
+        if(application.cellSelectedDoesNotExist()) {
+            return;
+        }
+
+        application.setCurrentCellStatus(false);
+
+    }
+
+    @FXML
+    private void CompleteSortBtnClick() {
+        ListViewID.setItems(application.sortComplete());
+    }
+
+    @FXML
+    private void IncompleteSortBtnClick() {
+        ListViewID.setItems(application.sortIncomplete());
+    }
+
+    @FXML
+    private void ShowAllBtnClick() {
+        ListViewID.setItems(application.showAll());
+    }
+
+    @FXML
+    private void RemoveBtnClick() {
+        if(application.cellSelectedDoesNotExist()) {
+            return;
+        }
+        application.removeCurrentCell();
+        RefreshList();
+    }
+
+    @FXML
+    private void RefreshList() {
+        switch (application.getCurrentSort()) {
+            case 1 -> ListViewID.setItems(application.sortComplete());
+            case 0 -> ListViewID.setItems(application.sortIncomplete());
+            case 2 -> ListViewID.setItems(application.showAll());
         }
     }
 
     @FXML
-    private void MarkIncompleteBtnClick(Event e) {
-        if(!application.cellSelectedExist()) {
-            return;
-        }
-        else{
-            application.setCurrentCellStatus(false);
-        }
+    private void LoadBtnClick() {
+        FileChooser fc = new FileChooser();
+        File file = fc.showOpenDialog(LoadButton.getScene().getWindow());
+        application.load(file);
+        RefreshList();
+
+    }
+    @FXML
+    private void SaveBtnClick() {
+        FileChooser fc = new FileChooser();
+        File file = fc.showOpenDialog(LoadButton.getScene().getWindow());
+        application.save(file);
+
+    }
+
+    @FXML
+    private void ClearListBtnClick(){
+        application.clearList();
+        RefreshList();
     }
 
 }

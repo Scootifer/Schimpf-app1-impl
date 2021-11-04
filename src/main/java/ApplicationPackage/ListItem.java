@@ -1,22 +1,29 @@
 package ApplicationPackage;
+/*
+ *  UCF COP3330 Summer 2021 Application Assignment 1 Solution
+ *  Copyright 2021 Scott Schimpf
+ */
+
 public class ListItem {
 
-    private int id;
     private String date;
     private String description;
     private boolean complete;
 
-    public ListItem(int id, String date, String description) {
-        this.id = id;
+    public ListItem(String date, String description) {
         this.date = date;
         this.description = description;
         this.complete = false;
 
     }
 
-    public void setId(int id){
-        this.id = id;
+    public ListItem(String date, String complete, String description) {
+        this.date = date;
+        this.description = description;
+        this.complete = Boolean.parseBoolean(complete);
+
     }
+
 
     //This function will be used to reset the date of the item.
     public void setDate(String date){
@@ -32,9 +39,6 @@ public class ListItem {
         this.complete = complete;
     }
 
-    public int getId() {
-        return this.id;
-    }
 
 
     //This function will be used to reset the date of the item.

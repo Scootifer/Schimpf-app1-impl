@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<SplitPane id="dueDate" dividerPositions="0.5, 0.5, 0.5" maxHeight="1000.0" maxWidth="1000.0" orientation="VERTICAL" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ApplicationPackage.TodoListController">
+<SplitPane id="dueDate" dividerPositions="0.5, 0.5, 0.5" maxHeight="1000.0" maxWidth="1000.0" orientation="VERTICAL" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="ApplicationPackage.TodoListController">
     <ButtonBar maxHeight="20.0" prefHeight="40.0" prefWidth="200.0">
       <buttons>
-          <Button id="SaveBtn" fx:id="SaveBtn" mnemonicParsing="false" text="Save" />
-          <Button id="LoadBtn" fx:id="LoadButton" mnemonicParsing="false" text="Load" />
+          <Button id="SaveBtn" fx:id="SaveBtn" mnemonicParsing="false" onAction="#SaveBtnClick" text="Save" />
+          <Button id="LoadBtn" fx:id="LoadButton" mnemonicParsing="false" onAction="#LoadBtnClick" text="Load" />
       </buttons>
     </ButtonBar>
     <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="1001.0">
@@ -25,29 +25,30 @@
         <TextField id="DescriptionBox" fx:id="DescriptionBox" layoutX="65.0" layoutY="6.0" prefHeight="25.0" prefWidth="728.0" promptText="Description" />
         <DatePicker id="DateBox" fx:id="DateBox" layoutX="810.0" layoutY="6.0" prefHeight="25.0" prefWidth="125.0" promptText="Date" />
     </AnchorPane>
-    <ListView fx:id="ListViewID" onMouseClicked="#listItemSelected" prefHeight="432.0" prefWidth="683.0" />
+    <ListView fx:id="ListViewID" prefHeight="432.0" prefWidth="683.0" />
     <ButtonBar maxHeight="30.0" prefHeight="121.0" prefWidth="601.0">
       <buttons>
          <Label text="Sort By:" translateY="-5.0" />
-         <HBox prefHeight="28.0" prefWidth="369.0" spacing="20.0" translateX="-280.0">
-            <children>
-               <RadioButton id="ShowAllBtn" fx:id="ShowAllBtn" mnemonicParsing="false" text="Show All" />
-               <RadioButton id="ShowCompleteBtn" fx:id="SortCompleteBtn" mnemonicParsing="false" text="Complete" />
-               <RadioButton id="ShowIncompleteBtn" fx:id="SortIncompleteBtn" mnemonicParsing="false" text="Incomplete" />
-            </children>
-         </HBox>
-          <Button id="RemoveBtn" fx:id="RemoveBtn" maxWidth="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="Remove" translateX="-200.0" />
-         <Label maxWidth="100.0" text="Status:" translateX="-10.0" translateY="-5.0" />
-         <HBox maxWidth="220.0" prefHeight="28.0" prefWidth="200.0" spacing="10.0">
-            <children>
-               <RadioButton id="MarkCompleteBtn" fx:id="MarkCompleteBtn" mnemonicParsing="false" onAction="#MarkCompleteBtnClick" text="Complete">
-                  <toggleGroup>
+          <HBox prefHeight="28.0" prefWidth="369.0" spacing="20.0" translateX="-210.0">
+              <RadioButton id="ShowAllBtn" fx:id="ShowAllBtn" mnemonicParsing="false" onAction="#ShowAllBtnClick" text="Show All">
+                 <toggleGroup>
+                     <ToggleGroup fx:id="sort" />
+                 </toggleGroup>
+              </RadioButton>
+              <RadioButton id="ShowCompleteBtn" fx:id="SortCompleteBtn" mnemonicParsing="false" onAction="#CompleteSortBtnClick" text="Complete" toggleGroup="$sort" />
+              <RadioButton id="ShowIncompleteBtn" fx:id="SortIncompleteBtn" mnemonicParsing="false" onAction="#IncompleteSortBtnClick" text="Incomplete" toggleGroup="$sort" />
+          </HBox>
+          <Button id="RemoveBtn" fx:id="RemoveBtn" maxWidth="25.0" mnemonicParsing="false" onAction="#RemoveBtnClick" prefHeight="25.0" prefWidth="25.0" text="Remove" translateX="-175.0" />
+         <Button fx:id="ClearListBtn" maxWidth="50.0" mnemonicParsing="false" onAction="#ClearListBtnClick" prefWidth="50.0" text="Clear" translateX="-120.0" />
+         <Label maxWidth="100.0" text="Status:" translateY="-5.0" />
+          <HBox maxWidth="280.0" prefHeight="28.0" prefWidth="200.0" spacing="10.0">
+              <RadioButton id="MarkCompleteBtn" fx:id="MarkCompleteBtn" mnemonicParsing="false" onAction="#MarkCompleteBtnClick" prefHeight="17.0" prefWidth="74.0" text="Complete">
+                 <toggleGroup>
                      <ToggleGroup fx:id="completeness" />
-                  </toggleGroup>
-               </RadioButton>
-               <RadioButton id="MarkIncompleteBtn" fx:id="MarkIncompleteBtn" mnemonicParsing="false" onAction="#MarkIncompleteBtnClick" text="Incomplete" toggleGroup="$completeness" />
-            </children>
-         </HBox>
+                 </toggleGroup>
+              </RadioButton>
+              <RadioButton id="MarkIncompleteBtn" fx:id="MarkIncompleteBtn" mnemonicParsing="false" onAction="#MarkIncompleteBtnClick" prefHeight="17.0" prefWidth="90.0" text="Incomplete" toggleGroup="$completeness" />
+          </HBox>
       </buttons>
     </ButtonBar>
 </SplitPane>
