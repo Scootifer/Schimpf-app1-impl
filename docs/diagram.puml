@@ -2,24 +2,60 @@
 'https://plantuml.com/sequence-diagram
 
 class ListItem {
-    +id
     +title
     +date
     +description
 }
 
-class Application {
+class TodoListApplication {
+    -start()
+}
+
+class DataManager {
     +ItemList
-    +itemCounter
+    +CurrentCell
+
 
     -addItem(String title, String date, String description)
-    -removeItem(int id)
-    -editTitle(int id, String title)
-    -editDescription(int id, String desc)
+    -removeItem()
+    -editCurrentCell(String date, String description)
     -sortComplete()
     -sortIncomplete()
     -showAll()
-    -save()
-    -load()
+    -save(File file)
+    -load(File file)
+}
+
+class TodoListController {
+    +DateBox
+    +DescriptionBox
+    +AddBtn
+    +SaveBtn
+    +LoadBtn
+    +ShowAllBtn
+    +SortCompleteBtn
+    +SortIncompleteBtn
+    +RemoveBtn
+    +MarkCompleteBtn
+    +MarkIncompleteBtn
+    +EditBtn
+    +ClearListBtn
+
+    +ListViewID
+
+    -addItem()
+    -editItem()
+    -MarkCompleteBtnClick()
+    -MarkIncompleteBtnClick()
+    -CompleteSortBtnClick()
+    -IncompleteSortBtnClick()
+    -ShowAllBtnClick()
+    -RemoveBtnClick()
+    -RefreshList()
+    -RefreshList(OberservableList<ListItem> filteredList)
+    -LoadBtnClick()
+    -SaveBtnClick()
+    -ClearListBtnClick()
+
 }
 @enduml
