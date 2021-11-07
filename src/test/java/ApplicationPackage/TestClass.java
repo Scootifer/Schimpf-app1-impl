@@ -63,7 +63,7 @@ public class TestClass {
         dm.addItem("2021-11-03", "2");
         newItem = new ListItem("2021-11-03", "3");
         newItem.setComplete(true);
-        dm.addItem(newItem);
+        dm.addItemByObject(newItem);
 
         ObservableList<ListItem> sortedList = dm.sortComplete();
 
@@ -85,7 +85,7 @@ public class TestClass {
         dm.addItem("2021-11-03", "3");
         newItem = new ListItem("2021-11-03", "2");
         newItem.setComplete(true);
-        dm.addItem(newItem);
+        dm.addItemByObject(newItem);
 
         ObservableList<ListItem> sortedList = dm.sortIncomplete();
 
@@ -113,7 +113,7 @@ public class TestClass {
         dm.addItem("2021-11-03", "2");
         newItem = new ListItem("2021-11-03", "3");
         newItem.setComplete(true);
-        dm.addItem(newItem);
+        dm.addItemByObject(newItem);
 
 
         ObservableList<ListItem> sortedList = dm.showAll();
@@ -162,10 +162,4 @@ public class TestClass {
     }
 
 
-
-        //Scanner user = new Scanner(new File("src/test/resources/exercise41_output.txt"));
-    //Scanner ACTUAL = new Scanner(new File("src/test/resources/EXPECTED_OUTPUT.txt"));
-    //    while(ACTUAL.hasNext()) {
-    //    Assertions.assertTrue(ACTUAL.nextLine().equals(user.nextLine()));
-    //}
 }

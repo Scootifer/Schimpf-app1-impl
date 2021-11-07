@@ -57,7 +57,7 @@ public class TodoListController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        DateBox.setValue(LocalDate.now());
+
 
         // Here the onMouseClick event is updated with a custom event
         // First it checks that a cell was actually selected
@@ -88,7 +88,14 @@ public class TodoListController implements Initializable {
 
     @FXML
     private void addItem() {
-        ObservableList<ListItem> newList = application.addItem(DateBox.getValue().toString(), DescriptionBox.getText());
+        String date = "";
+        try {
+            date = DateBox.getValue().toString();
+        }catch (NullPointerException ignored) {
+
+        }
+
+        ObservableList<ListItem> newList = application.addItem(date, DescriptionBox.getText());
         RefreshList(newList);
     }
 
@@ -98,7 +105,15 @@ public class TodoListController implements Initializable {
             addItem();
             return;
         }
-        ObservableList<ListItem> newList = application.editSelectedItem(DateBox.getValue().toString(), DescriptionBox.getText());
+
+        String date = "";
+        try {
+            date = DateBox.getValue().toString();
+        }catch (NullPointerException ignored) {
+
+        }
+
+        ObservableList<ListItem> newList = application.editSelectedItem(date, DescriptionBox.getText());
         RefreshList(newList);
     }
 

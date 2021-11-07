@@ -9,7 +9,6 @@ import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Scanner;
 
 
@@ -40,9 +39,8 @@ public class DataManager {
     }
 
     //overloaded for testing use
-    public ObservableList<ListItem> addItem(ListItem newItem) {
+    public void addItemByObject(ListItem newItem) {
         list.add(newItem);
-        return list;
     }
 
     //returns if a cell is selected, used to avoid the onclick event handler from producing an error
