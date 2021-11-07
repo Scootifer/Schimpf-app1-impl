@@ -5,6 +5,8 @@ package ApplicationPackage;
  *  Copyright 2021 Scott Schimpf
  */
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -51,7 +53,7 @@ public class TodoListController implements Initializable {
     public Button ClearListBtn;
 
 
-    final TodoListApplication application = new TodoListApplication();
+    final DataManager application = new DataManager();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -86,7 +88,8 @@ public class TodoListController implements Initializable {
 
     @FXML
     private void addItem() {
-        ListViewID.setItems(application.addItem(DateBox.getValue().toString(), DescriptionBox.getText()));
+        ObservableList<ListItem> newList = application.addItem(DateBox.getValue().toString(), DescriptionBox.getText());
+        RefreshList(newList);
     }
 
     @FXML
@@ -95,7 +98,8 @@ public class TodoListController implements Initializable {
             addItem();
             return;
         }
-        ListViewID.setItems(application.editSelectedItem(DateBox.getValue().toString(), DescriptionBox.getText()));
+        ObservableList<ListItem> newList = application.editSelectedItem(DateBox.getValue().toString(), DescriptionBox.getText());
+        RefreshList(newList);
     }
 
 
@@ -121,17 +125,21 @@ public class TodoListController implements Initializable {
 
     @FXML
     private void CompleteSortBtnClick() {
-        ListViewID.setItems(application.sortComplete());
+
+        ObservableList<ListItem> newList = application.sortComplete();
+        ListViewID.setItems(newList);
     }
 
     @FXML
     private void IncompleteSortBtnClick() {
-        ListViewID.setItems(application.sortIncomplete());
+        ObservableList<ListItem> newList = application.sortIncomplete();
+        ListViewID.setItems(newList);
     }
 
     @FXML
     private void ShowAllBtnClick() {
-        ListViewID.setItems(application.showAll());
+        ObservableList<ListItem> newList = application.showAll();
+        ListViewID.setItems(newList);
     }
 
     @FXML
@@ -145,11 +153,26 @@ public class TodoListController implements Initializable {
 
     @FXML
     private void RefreshList() {
+        ObservableList<ListItem> displayList = FXCollections.observableArrayList();
+
         switch (application.getCurrentSort()) {
-            case 1 -> ListViewID.setItems(application.sortComplete());
-            case 0 -> ListViewID.setItems(application.sortIncomplete());
-            case 2 -> ListViewID.setItems(application.showAll());
+            case 1 -> displayList = application.sortComplete();
+            case 0 -> displayList = application.sortIncomplete();
+            case 2 -> displayList = application.showAll();
         }
+        ListViewID.setItems(displayList);
+    }
+
+    @FXML
+    private void RefreshList(ObservableList<ListItem> filteredList) {
+        ObservableList<ListItem> displayList = FXCollections.observableArrayList();
+
+        switch (application.getCurrentSort()) {
+            case 1 -> displayList = application.sortComplete(filteredList);
+            case 0 -> displayList = application.sortIncomplete(filteredList);
+            case 2 -> displayList = application.showAll();
+        }
+        ListViewID.setItems(displayList);
     }
 
     @FXML

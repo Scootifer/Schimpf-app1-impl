@@ -41,7 +41,7 @@ public class ListItem {
 
 
 
-    //This function will be used to reset the date of the item.
+
     public String getDate(){
         return this.date;
     }
@@ -58,6 +58,20 @@ public class ListItem {
     @Override
     public String toString() {
         return String.format("Date: %-20s Description: %-256s", this.date, this.description);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if(!(o instanceof ListItem argItem)) {
+            return false;
+        }
+
+        boolean completeEquivalent;
+        completeEquivalent = Boolean.compare(argItem.getComplete(), this.complete) == 0;
+
+        return completeEquivalent && this.description.equals(argItem.getDescription()) && this.date.equals(argItem.getDate());
+
     }
 
 }
