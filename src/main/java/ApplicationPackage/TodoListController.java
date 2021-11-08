@@ -71,7 +71,14 @@ public class TodoListController implements Initializable {
 
             //sets desc and date fields for editing
             DescriptionBox.setText(application.getCurrentCellDescription());
-            DateBox.setValue(LocalDate.parse(application.getCurrentCellDate()));
+            String ld = application.getCurrentCellDate();
+            if(ld.equals(" ")) {
+                DateBox.setValue(null);
+            }
+            else {
+                DateBox.setValue(LocalDate.parse(ld));
+            }
+
 
             //completeness radio button logic
             if(!MarkCompleteBtn.isSelected() && !MarkIncompleteBtn.isSelected()) {
@@ -88,7 +95,7 @@ public class TodoListController implements Initializable {
 
     @FXML
     private void addItem() {
-        String date = "";
+        String date = " ";
         try {
             date = DateBox.getValue().toString();
         }catch (NullPointerException ignored) {
@@ -106,7 +113,7 @@ public class TodoListController implements Initializable {
             return;
         }
 
-        String date = "";
+        String date = " ";
         try {
             date = DateBox.getValue().toString();
         }catch (NullPointerException ignored) {
